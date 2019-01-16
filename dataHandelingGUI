@@ -1,0 +1,111 @@
+#! python3
+import openpyxl,time,os,sys
+from tkinter import simpledialog,Tk,Label,Button,mainloop,messagebox,PhotoImage,Canvas,ttk
+
+locuFisierului = "C:\\Users\\krane\\Desktop\\schoolDiplomaHandling\\test.xlsx"
+locuImg = "C:\\Users\\krane\\Desktop\\schoolDiplomaHandling\\bam.png"
+wb = openpyxl.load_workbook(locuFisierului)
+sheet = wb.get_sheet_by_name("Sheet1")
+
+master = Tk()
+#set size
+sizex,sizey = 500,700
+master.minsize(sizex,sizey)
+master.title("Info grabber & diploma status ~ Iacob \"krane\" Catalin")
+
+ws = master.winfo_screenwidth() # width of the screen
+hs = master.winfo_screenheight() # height of the screen
+x = (ws/2) - (sizex/2)
+y = (hs/2) - (sizey/2)
+master.geometry('%dx%d+%d+%d' % (sizex, sizey, x, y))
+
+#image
+
+
+
+
+os.system("cls")
+
+#tkinter.Label(master, text='Nume initiala Tata Prenume: ').pack(pady=0,padx=0)
+nume = simpledialog.askstring("Info", "Nume initiala Tata Prenume")
+def getNames():
+    global nume
+    for i in range(2,100000):
+        a=sheet.cell(row=i,column=1).value
+        rownr = i
+        date = ["Nume: ","Anul absolvirii: ","Ce a absolvit: ","Calificare Profesionala: ","Ridicat Diploma: "] # 5 nume 6 an 7 forma 8 calificare 9 diploma 
+        if a == nume:
+            for coloana in range(1,6):
+                a=sheet.cell(row=rownr,column=coloana).value
+                date.append(a)
+            if date[5] == None:
+                #print("Informatia despre nume nu a fost adaugata")
+                Label(master, text="Informatia despre nume nu a fost adaugata").pack(pady=3,padx=0)
+            else:
+                #print(date[0],date[5])
+                Label(master, text=[date[0],date[5]]).pack(pady=3,padx=0)
+            if date[6] == None:
+                #print("Informatia despre calificarea profesionala nu a fost adaugata")
+                Label(master, text="Informatia despre calificarea profesionala nu a fost adaugata").pack(pady=3,padx=0)
+            else:
+                #print(date[1],date[6])
+                Label(master, text=[date[1],date[6]]).pack(pady=3,padx=0)
+
+            if date[7] == None:
+                #print("Informatia despre forma absolvita [liceu/sc maistri etc] nu a fost adaugata")
+                Label(master, text="Informatia despre forma absolvita nu a fost adaugata").pack(pady=3,padx=0)
+            else:
+                #print(date[2],date[7])
+                Label(master, text=[date[2],date[7]]).pack(pady=3,padx=0)
+
+            if date[8] == None:
+                #print("Informatia despre calificare nu a fost adaugata")
+                Label(master, text="Informatia despre calificare nu a fost adaugata").pack(pady=3,padx=0)
+            else:
+                #print(date[3],date[8])
+                Label(master, text=[date[3],date[8]]).pack(pady=3,padx=0)
+
+            if date[9] == None:
+                #print("Informatia despre diploma nu a fost adaugata")
+                Label(master, text="Informatia despre diploma nu a fost adaugata").pack(pady=3,padx=0)
+
+            else:
+                #print(date[4],date[9])
+                Label(master, text=[date[4],date[9]]).pack(pady=3,padx=0)
+
+            break
+        if a == None:
+            break
+    return a
+def changeDiploma():
+    global nume,wb,locuFisierului
+    for i in range(1,100000):
+        a = sheet.cell(row=i,column=1).value
+        rownr = i
+        if a == nume:
+            sheet.cell(row=rownr,column=5).value = "DA"
+            wb.save(locuFisierului)
+            sys.exit()
+#actions = input("1. Verificari date\n2. I-a fost data diploma?: ") 
+Label(master, text='1. Vreau sa vad informatiile\n2. Am dat diploma elevului ').pack(pady=20,padx=0)
+def getac(x):
+    x = x
+    if x == 1:
+        getNames()
+    elif x == 2:
+        a=messagebox.askyesno("Save data to excel","Scrieti informatia despre diploma in DA (diploma a fost data) ?")
+        if a == True:
+            changeDiploma()
+            print("Modificarile au fost facute.")
+            sys.exit()
+        else:
+            pass
+buton1=Button(master, height=1, width=10, text="1. Informatii", command=lambda: getac(1))
+buton1.pack()
+buton2=Button(master, height=1, width=10, text="2. Diploma", command=lambda: getac(2))
+buton2.pack()
+
+
+
+
+mainloop()
