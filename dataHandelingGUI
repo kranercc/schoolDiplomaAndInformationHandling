@@ -4,8 +4,8 @@ from tkinter import simpledialog,Tk,Label,Button,mainloop,messagebox,PhotoImage,
 from PIL import Image, ImageTk
 
 
-locuFisierului = "C:\\Users\\krane\\Desktop\\schoolDiplomaHandling\\test.xlsx"
-locuImg = "C:\\Users\\krane\\Desktop\\schoolDiplomaHandling\\logo.png"
+locuFisierului = "C:\\Users\\INFO\\Desktop\\diplome\\programu\\test.xlsx"
+locuImg = "C:\\Users\\INFO\\Desktop\\diplome\\programu\\logo.png"
 wb = openpyxl.load_workbook(locuFisierului)
 sheet = wb.get_sheet_by_name("Sheet1")
 
@@ -21,7 +21,7 @@ x = (ws/2) - (sizex/2)
 y = (hs/2) - (sizey/2)
 master.geometry('%dx%d+%d+%d' % (sizex, sizey, x, y))
 
-#image
+#logo
 img = ImageTk.PhotoImage(Image.open(locuImg))
 panel = Label(master, image = img)
 panel.pack(side = "bottom", fill = "both", expand = "yes")
@@ -30,7 +30,32 @@ panel.pack(side = "bottom", fill = "both", expand = "yes")
 os.system("cls")
 
 #tkinter.Label(master, text='Nume initiala Tata Prenume: ').pack(pady=0,padx=0)
+l= []
 nume = simpledialog.askstring("Info", "Nume initiala Tata Prenume")
+#make uppercase
+for i in nume:
+    l.append(i.upper())
+
+#diacritice
+diacritice = ['Ă','Î','Ţ','Â','Ş']
+for i in l:
+    if i in diacritice:
+        if i == "Ă":
+            i == "A"
+        if i == "Î":
+            i == "I"
+        if i == "Ţ":
+            i == "T"
+        if i == "Â":
+            i == "A"
+        if i == "Ş":
+            i == "S"
+
+#new name after workin it
+nume = ''
+for i in l:
+    nume+=i
+
 def getNames():
     global nume
     for i in range(2,100000):
