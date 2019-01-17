@@ -1,9 +1,11 @@
 #! python3
 import openpyxl,time,os,sys
-from tkinter import simpledialog,Tk,Label,Button,mainloop,messagebox,PhotoImage,Canvas,ttk
+from tkinter import simpledialog,Tk,Label,Button,mainloop,messagebox,PhotoImage,Entry,StringVar
+from PIL import Image, ImageTk
+
 
 locuFisierului = "C:\\Users\\krane\\Desktop\\schoolDiplomaHandling\\test.xlsx"
-locuImg = "C:\\Users\\krane\\Desktop\\schoolDiplomaHandling\\bam.png"
+locuImg = "C:\\Users\\krane\\Desktop\\schoolDiplomaHandling\\logo.png"
 wb = openpyxl.load_workbook(locuFisierului)
 sheet = wb.get_sheet_by_name("Sheet1")
 
@@ -20,8 +22,9 @@ y = (hs/2) - (sizey/2)
 master.geometry('%dx%d+%d+%d' % (sizex, sizey, x, y))
 
 #image
-
-
+img = ImageTk.PhotoImage(Image.open(locuImg))
+panel = Label(master, image = img)
+panel.pack(side = "bottom", fill = "both", expand = "yes")
 
 
 os.system("cls")
@@ -87,7 +90,7 @@ def changeDiploma():
             wb.save(locuFisierului)
             sys.exit()
 #actions = input("1. Verificari date\n2. I-a fost data diploma?: ") 
-Label(master, text='1. Vreau sa vad informatiile\n2. Am dat diploma elevului ').pack(pady=20,padx=0)
+Label(master, text='1. Vreau sa vad informatiile\n\n\n2. Am dat diploma elevului ').pack(pady=20,padx=0)
 def getac(x):
     x = x
     if x == 1:
@@ -100,11 +103,10 @@ def getac(x):
             sys.exit()
         else:
             pass
-buton1=Button(master, height=1, width=10, text="1. Informatii", command=lambda: getac(1))
+buton1=Button(master, height=1, width=10, text="1. Informatii", command=lambda: getac(1),pady=10)
 buton1.pack()
-buton2=Button(master, height=1, width=10, text="2. Diploma", command=lambda: getac(2))
+buton2=Button(master, height=1, width=10, text="2. Diploma", command=lambda: getac(2),pady=10)
 buton2.pack()
-
 
 
 
