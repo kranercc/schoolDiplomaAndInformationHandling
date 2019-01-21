@@ -158,8 +158,8 @@ def numberOfDiplomas():
     Label(master, text=["Cati elevi n-au informatia despre starea diplome: ",nimic]).pack(pady=3,padx=0)
     
 
-buton1=Button(master, height=1, width=10, text="Numarul diplomelor.", command=lambda: numberOfDiplomas(),pady=10,padx=20)
-buton1.pack()
+butonNrDiplome=Button(master, height=1, width=10, text="Numarul diplomelor.", command=lambda: numberOfDiplomas(),pady=10,padx=20)
+butonNrDiplome.pack()
 
 
 mainloop()
