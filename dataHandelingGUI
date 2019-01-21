@@ -4,8 +4,8 @@ from tkinter import simpledialog,Tk,Label,Button,mainloop,messagebox,PhotoImage,
 from PIL import Image, ImageTk
 
 
-locuFisierului = "C:\\Users\\INFO\\Desktop\\diplome\\programu\\test.xlsx"
-locuImg = "C:\\Users\\INFO\\Desktop\\diplome\\programu\\logo.png"
+locuFisierului = "\\\SERVER\\e\\diplome\\programu\\test.xlsx"
+locuImg = "\\\SERVER\\e\\diplome\\programu\\logo.png"
 wb = openpyxl.load_workbook(locuFisierului)
 sheet = wb.get_sheet_by_name("Sheet1")
 
@@ -26,13 +26,11 @@ img = ImageTk.PhotoImage(Image.open(locuImg))
 panel = Label(master, image = img)
 panel.pack(side = "bottom", fill = "both", expand = "yes")
 
-
 os.system("cls")
 
-#tkinter.Label(master, text='Nume initiala Tata Prenume: ').pack(pady=0,padx=0)
+#make upper
 l= []
-nume = simpledialog.askstring("Info", "Nume initiala Tata Prenume")
-#make uppercase
+nume = simpledialog.askstring("Info", "Nume initiala Tata Prenume")#make uppercase
 for i in nume:
     l.append(i.upper())
 
@@ -55,7 +53,6 @@ for i in l:
 nume = ''
 for i in l:
     nume+=i
-
 def getNames():
     global nume
     for i in range(2,100000):
@@ -133,6 +130,36 @@ buton1.pack()
 buton2=Button(master, height=1, width=10, text="2. Diploma", command=lambda: getac(2),pady=10)
 buton2.pack()
 
+#number of diplomas given etc.
+da = 0
+nu = 0
+anulat = 0
+nimic = 0
+
+def numberOfDiplomas():
+    global da,nu,anulat,nimic
+    for i in range(1,100000):
+            a = sheet.cell(row=i,column=5).value
+            if a == None:
+                break
+            # in loc sa fie loc liber la starea diplomei, adaugati INEXISTENT
+            if a == "DA":
+                da+=1
+            if a == "NU":
+                nu+=1
+            if a == "ANULAT":
+                anulat+=1
+            if a == "NIMIC":
+                nimic+=1
+    Label(master, text=["Nr total de diplome: ",da+nu+anulat]).pack(pady=3,padx=0) 
+    Label(master, text=["Cate au fost eliberate: ",da]).pack(pady=3,padx=0)
+    Label(master, text=["Cate sunt la scoala: ",nu]).pack(pady=3,padx=0)
+    Label(master, text=["Cate diplome sunt anulate: ",anulat]).pack(pady=3,padx=0)
+    Label(master, text=["Cati elevi n-au informatia despre starea diplome: ",nimic]).pack(pady=3,padx=0)
+    
+
+buton1=Button(master, height=1, width=10, text="Numarul diplomelor.", command=lambda: numberOfDiplomas(),pady=10,padx=20)
+buton1.pack()
 
 
 mainloop()
