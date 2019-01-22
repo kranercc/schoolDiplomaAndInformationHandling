@@ -4,10 +4,18 @@ from tkinter import simpledialog,Tk,Label,Button,mainloop,messagebox,PhotoImage,
 from PIL import Image, ImageTk
 
 
-locuFisierului = "\\\SERVER\\e\\diplome\\programu\\test.xlsx"
 locuImg = "\\\SERVER\\e\\diplome\\programu\\logo.png"
+
+#1
+locuFisierului = "\\\SERVER\\e\\diplome\\programu\\test.xlsx"
 wb = openpyxl.load_workbook(locuFisierului)
 sheet = wb.get_sheet_by_name("Sheet1")
+
+#2
+locuFisierului2 = "\\\SERVER\\e\\diplome\\programu\\diplomefaranume.xlsx"
+wb2 = openpyxl.load_workbook(locuFisierului2)
+sheet2 = wb2.get_sheet_by_name("Sheet1")
+
 
 master = Tk()
 #set size
@@ -140,14 +148,15 @@ def numberOfDiplomas():
     global da,nu,anulat,nimic
     for i in range(1,100000):
             a = sheet.cell(row=i,column=5).value
-            if a == None:
+            a2 = sheet2.cell(row=i,column=2).value
+            if a == None and a2 == None:
                 break
             # in loc sa fie loc liber la starea diplomei, adaugati INEXISTENT
             if a == "DA":
                 da+=1
             if a == "NU":
                 nu+=1
-            if a == "ANULAT":
+            if a == "ANULAT" or a2 == "ANULAT":
                 anulat+=1
             if a == "NIMIC":
                 nimic+=1
