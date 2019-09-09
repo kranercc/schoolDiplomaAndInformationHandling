@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -16,6 +18,8 @@ import javax.swing.UIManager;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import java.awt.Label;
+import java.awt.event.MouseAdapter;
 
 public class Main
 {
@@ -111,13 +115,6 @@ public class Main
 		frame.getContentPane().add(ExtremeSearch, "name_6766352778614");
 		ExtremeSearch.setLayout(null);
 		
-		JTextArea textArea = new JTextArea(17, 45);
-		JScrollPane scroll = new JScrollPane(textArea);
-		scroll.setLocation(10, 10);
-		scroll.setSize(523, 216);
-		//this.add(textArea); // get rid of this
-		ExtremeSearch.add(scroll);
-		
 		JButton btnInapoi_1 = new JButton("Inapoi");
 		btnInapoi_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -126,8 +123,44 @@ public class Main
 				HomePanel.setVisible(true);
 			}
 		});
-		btnInapoi_1.setBounds(433, 240, 114, 20);
+		btnInapoi_1.setBounds(407, 235, 114, 20);
 		ExtremeSearch.add(btnInapoi_1);
+		
+		JLabel labelelev1 = new JLabel("elev1");
+		
+		
+		labelelev1.setBounds(38, 23, 467, 30);
+		ExtremeSearch.add(labelelev1);
+		
+		JLabel labelElev2 = new JLabel("elev1");
+		
+		labelElev2.setBounds(38, 52, 467, 30);
+		ExtremeSearch.add(labelElev2);
+		
+		JLabel labelelev3 = new JLabel("elev1");
+	
+		labelelev3.setBounds(38, 78, 467, 30);
+		ExtremeSearch.add(labelelev3);
+		
+		JLabel labelelev4 = new JLabel("elev1");
+		
+		labelelev4.setBounds(38, 107, 467, 30);
+		ExtremeSearch.add(labelelev4);
+		
+		JLabel labelelev5 = new JLabel("elev1");
+		
+		labelelev5.setBounds(38, 133, 467, 30);
+		ExtremeSearch.add(labelelev5);
+		
+		JButton btnCautaDinNou = new JButton("Cauta din nou");
+		
+		
+		btnCautaDinNou.setBounds(38, 234, 155, 20);
+		ExtremeSearch.add(btnCautaDinNou);
+		
+		JLabel lblCazuriposibile = new JLabel("cazuriPosibile");
+		lblCazuriposibile.setBounds(38, 209, 166, 14);
+		ExtremeSearch.add(lblCazuriposibile);
 		
 		
 		
@@ -160,10 +193,51 @@ public class Main
 		
 		JButton btnInapoi = new JButton("Inapoi");
 		
-		btnInapoi.setBounds(433, 240, 114, 25);
+		btnInapoi.setBounds(419, 230, 114, 20);
 		InformatiiElev.add(btnInapoi);
 		
-		
+		labelelev1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				//ia informatiile despre el
+				new Utility().DisplayInfo(txtNume, labelelev1, txtInitTata, txtPrenume, INFORMATII_DESPRE_ELEV_DIN_DB, lblNumeComplet, lblAnulabsolvirii, lblFormaabsolvirii, lblCalificarea, lblDiploma, ExtremeSearch, InformatiiElev);
+				
+			}
+		});
+		labelElev2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				//ia informatiile despre el
+				new Utility().DisplayInfo(txtNume, labelElev2, txtInitTata, txtPrenume, INFORMATII_DESPRE_ELEV_DIN_DB, lblNumeComplet, lblAnulabsolvirii, lblFormaabsolvirii, lblCalificarea, lblDiploma, ExtremeSearch, InformatiiElev);
+				
+			}
+		});labelelev3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				//ia informatiile despre el
+				new Utility().DisplayInfo(txtNume, labelelev3, txtInitTata, txtPrenume, INFORMATII_DESPRE_ELEV_DIN_DB, lblNumeComplet, lblAnulabsolvirii, lblFormaabsolvirii, lblCalificarea, lblDiploma, ExtremeSearch, InformatiiElev);
+				
+			}
+		});labelelev4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				//ia informatiile despre el
+				new Utility().DisplayInfo(txtNume, labelelev4, txtInitTata, txtPrenume, INFORMATII_DESPRE_ELEV_DIN_DB, lblNumeComplet, lblAnulabsolvirii, lblFormaabsolvirii, lblCalificarea, lblDiploma, ExtremeSearch, InformatiiElev);
+				
+			}
+		});labelelev5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				//ia informatiile despre el
+				new Utility().DisplayInfo(txtNume, labelelev5, txtInitTata, txtPrenume, INFORMATII_DESPRE_ELEV_DIN_DB, lblNumeComplet, lblAnulabsolvirii, lblFormaabsolvirii, lblCalificarea, lblDiploma, ExtremeSearch, InformatiiElev);
+				
+			}
+		});
 		
 		JButton btnCauta = new JButton("Cauta");
 		btnCauta.addActionListener(new ActionListener() {
@@ -192,9 +266,34 @@ public class Main
 						//
 						//	HANDLE PARTEA DE EXTREM
 						//
+						Vector<String> totiEleviiDupaNume = new Vector<String>();
+						totiEleviiDupaNume = new Utility().extremSearch(numeExtreme);
+						
+						JLabel[] labeleElevi = { labelelev1, labelElev2, labelelev3, labelelev4, labelelev5 };
+						
+						for (int i = 0; i < 5; i ++)
+						{
+							labeleElevi[i].setText(totiEleviiDupaNume.get(i));
+							
+						}
 						
 						
-					} 
+						for(int i2 = 0; i2 < 5; i2++)
+						{
+							try 
+							{
+								totiEleviiDupaNume.remove(i2);			
+							}
+							catch(Exception e3) 
+							{
+								// TODO: handle exception
+							}
+						}
+						
+						lblCazuriposibile.setText(new Utility().calcululButonuluiDeShuffle(totiEleviiDupaNume));
+					
+					}
+					
 					else 
 					{
 					
@@ -243,6 +342,13 @@ public class Main
 				InformatiiElev.setVisible(false);
 				HomePanel.setVisible(true);
 				
+			}
+		});
+		
+		btnCautaDinNou.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			
+			{
 			}
 		});
 	}
