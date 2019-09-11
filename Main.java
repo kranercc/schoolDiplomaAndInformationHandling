@@ -4,6 +4,9 @@ import javax.swing.JFrame;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.Timer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,6 +14,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -20,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.awt.Label;
 import java.awt.event.MouseAdapter;
+import javax.swing.JProgressBar;
 
 public class Main
 {
@@ -57,15 +62,19 @@ public class Main
 	/**
 	 * Create the application.
 	 */
+	
+	
 	public Main()
 	{
 		initialize();
+		
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	Vector<String> INFORMATII_DESPRE_ELEV_DIN_DB = new Vector<String>();
+	JProgressBar progressBar = null;
 	private void initialize()
 	{
 		
@@ -83,30 +92,30 @@ public class Main
 		HomePanel.setLayout(null);
 		HomePanel.setVisible(true);
 		
-		JLabel lblNume = new JLabel("Nume:");
-		lblNume.setBounds(55, 76, 66, 15);
+		JLabel lblNume = new JLabel("Nume");
+		lblNume.setBounds(117, 77, 66, 15);
 		HomePanel.add(lblNume);
 		
 		JLabel lblInitialaTatalui = new JLabel("Initiala Tatalui");
-		lblInitialaTatalui.setBounds(227, 76, 110, 15);
+		lblInitialaTatalui.setBounds(117, 106, 110, 15);
 		HomePanel.add(lblInitialaTatalui);
 		
 		JLabel lblPrenume = new JLabel("Prenume");
-		lblPrenume.setBounds(397, 76, 70, 15);
+		lblPrenume.setBounds(117, 136, 70, 15);
 		HomePanel.add(lblPrenume);
 		
 		txtNume = new JTextField();
-		txtNume.setBounds(52, 105, 124, 19);
+		txtNume.setBounds(237, 73, 124, 19);
 		HomePanel.add(txtNume);
 		txtNume.setColumns(10);
 		
 		txtInitTata = new JTextField();
-		txtInitTata.setBounds(227, 105, 124, 19);
+		txtInitTata.setBounds(237, 102, 124, 19);
 		HomePanel.add(txtInitTata);
 		txtInitTata.setColumns(10);
 		
 		txtPrenume = new JTextField();
-		txtPrenume.setBounds(397, 105, 124, 19);
+		txtPrenume.setBounds(237, 132, 124, 19);
 		HomePanel.add(txtPrenume);
 		txtPrenume.setColumns(10);
 		
@@ -176,25 +185,68 @@ public class Main
 		InformatiiElev.add(lblNumeComplet);
 		
 		JLabel lblAnulabsolvirii = new JLabel("AnulAbsolvirii");
-		lblAnulabsolvirii.setBounds(55, 81, 165, 15);
+		lblAnulabsolvirii.setBounds(55, 67, 165, 15);
 		InformatiiElev.add(lblAnulabsolvirii);
 		
 		JLabel lblFormaabsolvirii = new JLabel("FormaAbsolvirii");
-		lblFormaabsolvirii.setBounds(55, 108, 345, 15);
+		lblFormaabsolvirii.setBounds(55, 93, 345, 15);
 		InformatiiElev.add(lblFormaabsolvirii);
 		
 		JLabel lblCalificarea = new JLabel("Calificarea");
-		lblCalificarea.setBounds(55, 143, 359, 15);
+		lblCalificarea.setBounds(55, 119, 359, 15);
 		InformatiiElev.add(lblCalificarea);
 		
 		JLabel lblDiploma = new JLabel("Diploma");
-		lblDiploma.setBounds(55, 194, 386, 15);
+		lblDiploma.setBounds(55, 170, 386, 15);
 		InformatiiElev.add(lblDiploma);
 		
 		JButton btnInapoi = new JButton("Inapoi");
 		
 		btnInapoi.setBounds(419, 230, 114, 20);
 		InformatiiElev.add(btnInapoi);
+		
+		
+		
+		JLabel lblLblcautawairanim = new JLabel("Se cauta");
+		lblLblcautawairanim.setBounds(237, 196, 194, 14);
+		lblLblcautawairanim.setVisible(false);
+		HomePanel.add(lblLblcautawairanim);
+		
+		Thread anim_thread = new Thread() {
+		    public void run() {
+		    	
+				String word = "Se cauta";
+
+				
+				boolean interrupt = false;
+				
+				long start = System.currentTimeMillis() / 300;
+				
+				while(!interrupt)
+				{
+					try
+					{
+						Thread.sleep(1000/10);
+					} catch (InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					long end = System.currentTimeMillis() / 300;
+						
+					if(end - start > 1)
+					{
+						if(word.equals("Se cauta...")) { word = "Se cauta"; }
+						else { word += "."; }
+						start = System.currentTimeMillis() / 300;
+
+						lblLblcautawairanim.setText(word);
+					}
+
+				}	
+		    }  
+		};
+    	
 		
 		labelelev1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -242,15 +294,16 @@ public class Main
 		JButton btnCauta = new JButton("Cauta");
 		btnCauta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				anim_thread.start();
+				lblLblcautawairanim.setVisible(true);
 				Handle_XMLSX xlsx = new Handle_XMLSX();
 				String numeleComplet = txtNume.getText() + " " + txtInitTata.getText() + " " + txtPrenume.getText();
-				numeleComplet = numeleComplet.toUpperCase();
 				
 				INFORMATII_DESPRE_ELEV_DIN_DB = xlsx.checkStatusFromName(numeleComplet, false);
 				
 				if (INFORMATII_DESPRE_ELEV_DIN_DB.size() < 1)
 				{
+					lblLblcautawairanim.setVisible(false);
 					JOptionPane.showMessageDialog(null, "Acest elev nu are informatiile trecute sau nu exista in baza de date.");
 					
 					int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -303,6 +356,8 @@ public class Main
 				}
 				else
 				{
+					lblLblcautawairanim.setVisible(false);
+
 					lblNumeComplet.setText("Nume: " + INFORMATII_DESPRE_ELEV_DIN_DB.get(0));
 					lblAnulabsolvirii.setText("Anul absolvirii: " + INFORMATII_DESPRE_ELEV_DIN_DB.get(1).substring(0, INFORMATII_DESPRE_ELEV_DIN_DB.get(1).indexOf('.')));
 					lblFormaabsolvirii.setText("Forma absolvirii: " + INFORMATII_DESPRE_ELEV_DIN_DB.get(2));
@@ -333,8 +388,11 @@ public class Main
 			
 			
 		});
-		btnCauta.setBounds(220, 172, 114, 20);
+		btnCauta.setBounds(237, 162, 124, 20);
 		HomePanel.add(btnCauta);
+		
+		
+		
 		
 		btnInapoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
